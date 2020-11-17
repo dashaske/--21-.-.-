@@ -12,35 +12,80 @@ namespace WindowsFormsAirplane
 {
     public partial class FormPlane : Form
     {
-        private Bomber plane;
+        private ITransport plane;
         public FormPlane()
         {
             InitializeComponent();
-            comboBoxBoombs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxBoombs.Items.AddRange(new string[] { "6", "8", "10" });
         }
         private void Draw()
         {
             Bitmap bmp = new Bitmap(pictureBoxAirplane.Width, pictureBoxAirplane.Height);
             Graphics gr = Graphics.FromImage(bmp);
-            plane.DrawAirplane(gr);
+            plane.DrawFly(gr);
             pictureBoxAirplane.Image = bmp;
         }
-       
-        private void buttonCreate_Click(object sender, EventArgs e)
+        private void buttonCreateWar_Click(object sender, EventArgs e)
         {
             Random rnd = new Random();
-            if (comboBoxBoombs.SelectedIndex > -1)
+
+            plane = new WarPlane(rnd.Next(70, 300), rnd.Next(1000, 2000), Color.Green);
+            plane.SetPosition(rnd.Next(40, 600), rnd.Next(10, 100), pictureBoxAirplane.Width,
+           pictureBoxAirplane.Height);
+
+            Draw();
+        }
+
+        private void buttonCreateBomber_Click(object sender, EventArgs e)
+        {
+            Random rnd = new Random();
+
+            plane = new Bomber(rnd.Next(70, 300), rnd.Next(1000, 2000), Color.Gray,
+            Color.Black, Color.Gray, Convert.ToInt32(comboBoxBoombs.SelectedItem), FormOfBombs(), true, true, true);
+            plane.SetPosition(50, 100, pictureBoxAirplane.Width,
+            pictureBoxAirplane.Height);
+
+
+            buttonSecondForm.Enabled = true;
+            buttonFirstForm.Enabled = true;
+            buttonThirdForm.Enabled = true;
+
+            Draw();
+
+        }
+        private void buttonBombsForm_Click(object sender, EventArgs e)
+        {
+            if (sender == buttonFirstForm)
             {
-                plane = new Bomber(rnd.Next(100, 300), rnd.Next(1000, 2000), Convert.ToInt32(comboBoxBoombs.SelectedItem.ToString()), Color.Gray,
-                Color.Black, true, true, true);
-                plane.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxAirplane.Width,
-                pictureBoxAirplane.Height);
-                Draw();
+                buttonSecondForm.Enabled = false;
+                buttonThirdForm.Enabled = false;
+            }
+            else if (sender == buttonSecondForm)
+            {
+                buttonFirstForm.Enabled = false;
+                buttonThirdForm.Enabled = false;
             }
             else
             {
-                MessageBox.Show("Выберете количество бомб (6,8,10) и повторите попытку");
-            }          
+                buttonFirstForm.Enabled = false;
+                buttonSecondForm.Enabled = false;
+            }
+        }
+
+        private int FormOfBombs()
+        {
+            if (buttonFirstForm.Enabled == true)
+            {
+                return 0;
+            }
+            else if (buttonSecondForm.Enabled == true)
+            {
+                return 1;
+            }
+            else
+            {
+                return 2;
+            }
         }
 
         private void buttonMove_Click(object sender, EventArgs e)
@@ -50,19 +95,19 @@ namespace WindowsFormsAirplane
             switch (name)
             {
                 case "buttonUp":
-                    plane.MovePlane(Direction.Up);
+                    plane.MoveTransport(Direction.Up);
                     break;
                 case "buttonDown":
-                    plane.MovePlane(Direction.Down);
+                    plane.MoveTransport(Direction.Down);
                     break;
                 case "buttonLeft":
-                    plane.MovePlane(Direction.Left);
+                    plane.MoveTransport(Direction.Left);
                     break;
                 case "buttonRight":
-                    plane.MovePlane(Direction.Right);
+                    plane.MoveTransport(Direction.Right);
                     break;
             }
             Draw();
-        }       
+        }
     }
 }

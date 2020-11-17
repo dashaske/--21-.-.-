@@ -28,25 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonCreate = new System.Windows.Forms.Button();
             this.buttonRight = new System.Windows.Forms.Button();
             this.buttonDown = new System.Windows.Forms.Button();
             this.buttonLeft = new System.Windows.Forms.Button();
             this.buttonUp = new System.Windows.Forms.Button();
             this.pictureBoxAirplane = new System.Windows.Forms.PictureBox();
             this.comboBoxBoombs = new System.Windows.Forms.ComboBox();
+            this.buttonCreateBomber = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.buttonThirdForm = new System.Windows.Forms.Button();
+            this.buttonSecondForm = new System.Windows.Forms.Button();
+            this.buttonFirstForm = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.buttonCreateWar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAirplane)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // buttonCreate
-            // 
-            this.buttonCreate.Location = new System.Drawing.Point(12, 12);
-            this.buttonCreate.Name = "buttonCreate";
-            this.buttonCreate.Size = new System.Drawing.Size(94, 27);
-            this.buttonCreate.TabIndex = 1;
-            this.buttonCreate.Text = "Создать";
-            this.buttonCreate.UseVisualStyleBackColor = true;
-            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
             // 
             // buttonRight
             // 
@@ -98,7 +96,7 @@
             // 
             // pictureBoxAirplane
             // 
-            this.pictureBoxAirplane.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxAirplane.Location = new System.Drawing.Point(-2, 1);
             this.pictureBoxAirplane.Name = "pictureBoxAirplane";
             this.pictureBoxAirplane.Size = new System.Drawing.Size(884, 461);
             this.pictureBoxAirplane.TabIndex = 0;
@@ -107,34 +105,113 @@
             // 
             // comboBoxBoombs
             // 
-            this.comboBoxBoombs.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.comboBoxBoombs.FormattingEnabled = true;
-            this.comboBoxBoombs.Items.AddRange(new object[] {
-            "6",
-            "8",
-            "10"});
-            this.comboBoxBoombs.Location = new System.Drawing.Point(112, 16);
+            this.comboBoxBoombs.Location = new System.Drawing.Point(107, 69);
             this.comboBoxBoombs.Name = "comboBoxBoombs";
-            this.comboBoxBoombs.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxBoombs.TabIndex = 6;
-            this.comboBoxBoombs.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.comboBoxBoombs.Size = new System.Drawing.Size(75, 21);
+            this.comboBoxBoombs.TabIndex = 13;
+            // 
+            // buttonCreateBomber
+            // 
+            this.buttonCreateBomber.Location = new System.Drawing.Point(107, 19);
+            this.buttonCreateBomber.Name = "buttonCreateBomber";
+            this.buttonCreateBomber.Size = new System.Drawing.Size(93, 39);
+            this.buttonCreateBomber.TabIndex = 7;
+            this.buttonCreateBomber.Text = "Бомбардировщик";
+            this.buttonCreateBomber.UseVisualStyleBackColor = true;
+            this.buttonCreateBomber.Click += new System.EventHandler(this.buttonCreateBomber_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.buttonThirdForm);
+            this.groupBox1.Controls.Add(this.buttonSecondForm);
+            this.groupBox1.Controls.Add(this.buttonFirstForm);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.buttonCreateWar);
+            this.groupBox1.Controls.Add(this.comboBoxBoombs);
+            this.groupBox1.Controls.Add(this.buttonCreateBomber);
+            this.groupBox1.Location = new System.Drawing.Point(666, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(206, 201);
+            this.groupBox1.TabIndex = 8;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Создать";
+            // 
+            // buttonThirdForm
+            // 
+            this.buttonThirdForm.Location = new System.Drawing.Point(107, 168);
+            this.buttonThirdForm.Name = "buttonThirdForm";
+            this.buttonThirdForm.Size = new System.Drawing.Size(75, 27);
+            this.buttonThirdForm.TabIndex = 9;
+            this.buttonThirdForm.Text = "3 Форма";
+            this.buttonThirdForm.UseVisualStyleBackColor = true;
+            this.buttonThirdForm.Click += new System.EventHandler(this.buttonBombsForm_Click);
+            // 
+            // buttonSecondForm
+            // 
+            this.buttonSecondForm.Location = new System.Drawing.Point(107, 134);
+            this.buttonSecondForm.Name = "buttonSecondForm";
+            this.buttonSecondForm.Size = new System.Drawing.Size(75, 28);
+            this.buttonSecondForm.TabIndex = 12;
+            this.buttonSecondForm.Text = "2 Форма";
+            this.buttonSecondForm.UseVisualStyleBackColor = true;
+            this.buttonSecondForm.Click += new System.EventHandler(this.buttonBombsForm_Click);
+            // 
+            // buttonFirstForm
+            // 
+            this.buttonFirstForm.Location = new System.Drawing.Point(107, 98);
+            this.buttonFirstForm.Name = "buttonFirstForm";
+            this.buttonFirstForm.Size = new System.Drawing.Size(75, 30);
+            this.buttonFirstForm.TabIndex = 11;
+            this.buttonFirstForm.Text = "1 Форма";
+            this.buttonFirstForm.UseVisualStyleBackColor = true;
+            this.buttonFirstForm.Click += new System.EventHandler(this.buttonBombsForm_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(21, 107);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(76, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Форма бомб:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(24, 72);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Кол-во бомб:";
+            // 
+            // buttonCreateWar
+            // 
+            this.buttonCreateWar.Location = new System.Drawing.Point(6, 19);
+            this.buttonCreateWar.Name = "buttonCreateWar";
+            this.buttonCreateWar.Size = new System.Drawing.Size(95, 39);
+            this.buttonCreateWar.TabIndex = 8;
+            this.buttonCreateWar.Text = "Военный самолет";
+            this.buttonCreateWar.UseVisualStyleBackColor = true;
+            this.buttonCreateWar.Click += new System.EventHandler(this.buttonCreateWar_Click);
             // 
             // FormPlane
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 461);
-            this.Controls.Add(this.comboBoxBoombs);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonRight);
             this.Controls.Add(this.buttonDown);
             this.Controls.Add(this.buttonLeft);
             this.Controls.Add(this.buttonUp);
-            this.Controls.Add(this.buttonCreate);
             this.Controls.Add(this.pictureBoxAirplane);
             this.Name = "FormPlane";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Самолёт";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAirplane)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -142,12 +219,19 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBoxAirplane;
-        private System.Windows.Forms.Button buttonCreate;
         private System.Windows.Forms.Button buttonUp;
         private System.Windows.Forms.Button buttonLeft;
         private System.Windows.Forms.Button buttonDown;
         private System.Windows.Forms.Button buttonRight;
         private System.Windows.Forms.ComboBox comboBoxBoombs;
+        private System.Windows.Forms.Button buttonCreateBomber;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button buttonThirdForm;
+        private System.Windows.Forms.Button buttonSecondForm;
+        private System.Windows.Forms.Button buttonFirstForm;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button buttonCreateWar;
     }
 }
 
