@@ -19,7 +19,6 @@ namespace WindowsFormsAirplane
             DopColor = dopColor;
         }
 
-
         Pen pen = new Pen(Color.Black);
         public void Draw6Boombs(Graphics g, int PosX, int PosY)
         {
