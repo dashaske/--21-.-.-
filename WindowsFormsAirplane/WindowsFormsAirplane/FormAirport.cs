@@ -12,21 +12,46 @@ namespace WindowsFormsAirplane
 {
     public partial class FormAirport : Form
     {
-        private readonly Airport<WarPlane, BoombsCircular> airport;
+        private readonly AirportCollection airportCollection;
+
+        public LinkedList<Plane> plane = new LinkedList<Plane>();
 
         public FormAirport()
         {
             InitializeComponent();
             comboBoxBoombs.Items.AddRange(new string[] { "6", "8", "10" });
-            airport = new Airport<WarPlane, BoombsCircular>(9, pictureBoxAirport.Width, pictureBoxAirport.Height);
+            airportCollection = new AirportCollection(pictureBoxAirport.Width, pictureBoxAirport.Height);
             Draw();
+        }
+        //Заполнение listBoxLevels
+        private void ReloadLevels()
+        {
+            int index = listBoxAirport.SelectedIndex;
+            listBoxAirport.Items.Clear();
+            for (int i = 0; i < airportCollection.Keys.Count; i++)
+            {
+                listBoxAirport.Items.Add(airportCollection.Keys[i]);
+            }
+            if (listBoxAirport.Items.Count > 0 && (index == -1 || index >=
+            listBoxAirport.Items.Count))
+            {
+                listBoxAirport.SelectedIndex = 0;
+            }
+            else if (listBoxAirport.Items.Count > 0 && index > -1 && index <
+            listBoxAirport.Items.Count)
+            {
+                listBoxAirport.SelectedIndex = index;
+            }
         }
         private void Draw()
         {
-            Bitmap bmp = new Bitmap(pictureBoxAirport.Width, pictureBoxAirport.Height);
-            Graphics gr = Graphics.FromImage(bmp);
-            airport.Draw(gr);
-            pictureBoxAirport.Image = bmp;
+            if (listBoxAirport.SelectedIndex > -1)
+            {
+                Bitmap bmp = new Bitmap(pictureBoxAirport.Width, pictureBoxAirport.Height);
+                Graphics gr = Graphics.FromImage(bmp);
+                airportCollection[listBoxAirport.SelectedItem.ToString()].Draw(gr);
+                pictureBoxAirport.Image = bmp;
+            }
         }
         private void buttonSetWarPlane_Click(object sender, EventArgs e)
         {
@@ -34,39 +59,37 @@ namespace WindowsFormsAirplane
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 var air = new WarPlane(100, 1000, dialog.Color);
-                if (airport + air)
+                if (airportCollection[listBoxAirport.SelectedItem.ToString()] + air)
                 {
                     Draw();
                 }
                 else
                 {
-                    MessageBox.Show("Все места заполнены");
+                    MessageBox.Show("Не удалось посадить военный самолет");
                 }
             }
         }
         private void buttonSetBomber_Click(object sender, EventArgs e)
         {
-            ColorDialog dialog = new ColorDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (listBoxAirport.SelectedIndex > -1)
             {
-                ColorDialog dialogDop = new ColorDialog();
-                if (dialogDop.ShowDialog() == DialogResult.OK)
+                ColorDialog dialog = new ColorDialog();
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    var air = new Bomber(100, 1000, dialog.Color, dialogDop.Color, dialogDop.Color,
-                    Convert.ToInt32(comboBoxBoombs.SelectedItem), FormOfBombs(), true, true, true);
-
-                    buttonSecondForm.Enabled = true;
-                    buttonFirstForm.Enabled = true;
-                    buttonThirdForm.Enabled = true;
-                    if (airport + air)
+                    ColorDialog dialogDop = new ColorDialog();
+                    if (dialogDop.ShowDialog() == DialogResult.OK)
                     {
-                        Draw();
+                        var bomber = new Bomber(100, 1000, dialog.Color, dialogDop.Color,
+                        true, true, true);
+                        if (airportCollection[listBoxAirport.SelectedItem.ToString()] + bomber)
+                        {
+                            Draw();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Не удалось посадить бомбардировщик");
+                        }
                     }
-                    else
-                    {
-                        MessageBox.Show("Все места заполнены");
-                    }
-                   
                 }
             }
         }
@@ -74,31 +97,14 @@ namespace WindowsFormsAirplane
         {
             if (maskedTextBoxPlace.Text != "")
             {
-                var air = airport - Convert.ToInt32(maskedTextBoxPlace.Text);
-                if (air != null)
+                var aircraft = airportCollection[listBoxAirport.SelectedItem.ToString()] - Convert.ToInt32(maskedTextBoxPlace.Text);
+                if (aircraft != null)
                 {
-                    FormPlane form = new FormPlane();
-                    form.SetPlane(air);
-                    form.ShowDialog();
+                    plane.AddFirst(aircraft);
                 }
                 Draw();
             }
-        }
-        private void buttonCheckingForFreePlaces_Click(object sender, EventArgs e)
-        {
-            if (maskedTextBoxCountOfPlane.Text != "")
-            {
-                int index = Convert.ToInt32(maskedTextBoxCountOfPlane.Text);
-                if (airport == index)
-                {
-                    MessageBox.Show("Свободных мест в аэропорте = " + index);
-                }
-                else if (airport != index)
-                {
-                    MessageBox.Show("Свободных мест в аэропорте не = " + index);
-                }
-            }
-        }
+        }       
         private void buttonBombsForm_Click(object sender, EventArgs e)
         {
             if (sender == buttonFirstForm)
@@ -132,5 +138,49 @@ namespace WindowsFormsAirplane
                 return 2;
             }
         }
-    }
+        private void buttonAddAirport_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBoxLevels.Text))
+            {
+                MessageBox.Show("Введите название аэропорта!", "Ошибка",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            airportCollection.AddAirport(textBoxLevels.Text);
+            textBoxLevels.Text = "";
+            ReloadLevels();
+            Draw();
+        }
+
+        private void buttonDeleteAirport_Click(object sender, EventArgs e)
+        {
+            if (listBoxAirport.SelectedIndex > -1)
+            {
+                if (MessageBox.Show($"Удалить аэропорт { listBoxAirport.SelectedItem.ToString()}?", "Удаление", MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    airportCollection.DelAirport(listBoxAirport.Text);
+                    ReloadLevels();
+                }
+            }
+        }
+        private void listBoxAirport_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Draw();
+        }
+        private void buttonCheckPlane_Click(object sender, EventArgs e)
+        {
+            if (plane.Count > 0)
+            {
+                FormPlane form = new FormPlane();
+                form.SetPlane(plane.First.Value);
+                plane.RemoveFirst();
+                form.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Самолётов не осталось");
+            }
+        }
+    }    
 }

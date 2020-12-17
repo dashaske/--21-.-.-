@@ -9,18 +9,7 @@ namespace WindowsFormsAirplane
 {
     class Bomber : WarPlane
     {
-        public bool Bombs { private set; get; } //бомбы
-
         private IDopElements boombs;
-
-        /// Ширина отрисовки самолета
-        private const int carWidth = 154;
-
-        private const int carHeight = 80;
-
-        /// Дополнительный цвет
-        public Color DopColor { private set; get; }
-
         /// Признак наличия звезды
         public bool Star { private set; get; }
 
@@ -30,32 +19,18 @@ namespace WindowsFormsAirplane
         /// Признак наличия ракет
         public bool Rocket { private set; get; }
 
-        public Bomber(int maxSpeed, float weight, Color mainColor, Color dopColor, Color bombColor,
-        int bombs, int bombsForm, bool rocket, bool bomb, bool star)
+        public Color DopColor { protected set; get; }
+
+        public Bomber(int maxSpeed, float weight, Color mainColor, Color dopColor, 
+        bool rocket, bool bomb, bool star)
             : base(maxSpeed, weight, mainColor)
         {
-            MaxSpeed = maxSpeed;
-            Weight = weight;
-            MainColor = mainColor;
             DopColor = dopColor;
             Star = star;
-            Rocket = rocket;
             Bomb = bomb;
-
-            if (bombsForm == 0)
-            {
-                boombs = new BoombsStandart(bombs, bombColor);
-            }
-            else if (bombsForm == 1)
-            {
-                boombs = new PointedBoombs(bombs, bombColor);
-            }
-            else if (bombsForm == 2)
-            {
-                boombs = new BoombsCircular(bombs, bombColor);
-            }
+            Rocket = rocket;
         }
-       public override void DrawFly(Graphics g)
+        public override void DrawFly(Graphics g)
         {
             Pen pen = new Pen(Color.Black);
             //рисуем звезду
