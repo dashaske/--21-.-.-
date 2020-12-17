@@ -18,7 +18,6 @@ namespace WindowsFormsAirplane
 
         private const int carHeight = 80;
 
-
         /// Дополнительный цвет
         public Color DopColor { private set; get; }
 
@@ -43,7 +42,6 @@ namespace WindowsFormsAirplane
             Rocket = rocket;
             Bomb = bomb;
 
-
             if (bombsForm == 0)
             {
                 boombs = new BoombsStandart(bombs, bombColor);
@@ -59,7 +57,6 @@ namespace WindowsFormsAirplane
         }
        public override void DrawFly(Graphics g)
         {
-
             Pen pen = new Pen(Color.Black);
             //рисуем звезду
 

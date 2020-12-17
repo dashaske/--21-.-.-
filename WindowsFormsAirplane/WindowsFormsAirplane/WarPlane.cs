@@ -37,7 +37,6 @@ namespace WindowsFormsAirplane
             this.planeWidth = planeWidth;
             this.planeHeight = planeHeight;
         }
-
         public override void MoveTransport(Direction direction)
         {
             float step1 = MaxSpeed * 40 / Weight;
@@ -74,7 +73,6 @@ namespace WindowsFormsAirplane
                     break;
             }
         }
-
         public override void DrawFly(Graphics g)
         {
             Pen pen = new Pen(Color.Black);
