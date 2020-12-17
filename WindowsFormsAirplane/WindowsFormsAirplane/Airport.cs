@@ -11,11 +11,13 @@ namespace WindowsFormsAirplane
                                where U : class, IDopElements
     {
         //массив объектов
-        private T[] _places;
+        private readonly List<T> _places;
 
         private int PictureWidth { get; set; }
 
         private int PictureHeight { get; set; }
+
+        private readonly int _maxCount;
 
         //высота парковочного места
         private const int _placeSizeWidth = 210;
@@ -23,85 +25,61 @@ namespace WindowsFormsAirplane
         //ширина парковочного места
         private const int _placeSizeHeight = 133;
 
-        public Airport(int sizes, int pictureWidth, int pictureHeight)
+        public Airport(int picWidth, int picHeight) 
         {
-            _places = new T[sizes];
-            PictureWidth = pictureWidth;
-            PictureHeight = pictureHeight;
-            for (int i = 0; i < _places.Length; i++)
-            {
-                _places[i] = null;
-            }
+            int width = picWidth / _placeSizeWidth;
+            int height = picHeight / _placeSizeHeight;
+            _places = new List<T>();
+            _maxCount = width * height;
+            PictureWidth = picWidth;
+            PictureHeight = picHeight;
         }
-
         public static bool operator +(Airport<T, U> p, T bomber)
         {
-            for (int i = 0; i < p._places.Length; i++)
+            if (p._places.Count >= p._maxCount)
             {
-                if (p._places[i] == null)
-                {
-                    p._places[i] = bomber;
-                    p._places[i].SetPosition(3 + i / 3 * _placeSizeWidth + 3,
-                     i % 3 * _placeSizeHeight + 15, p.PictureWidth,
-                    p.PictureHeight);
-                    return true;
-                }
+                return false;
             }
-            return false;
+            p._places.Add(bomber);
+            return true;
         }
         public static T operator -(Airport<T, U> p, int index)
         {
-            if (index >= 0 && index < p._places.Length)
+            if (index < -1 || index > p._places.Count)
             {
-                T warplane = p._places[index];
-                p._places[index] = null;
-                return warplane;
+                return null;
+            }
+
+            else if (p._places.Count > index)
+            {
+                T aircraft = p._places[index];
+                p._places.RemoveAt(index);
+                return aircraft;
             }
             return null;
-        }
-
-        private int CompareHelper()
-        {
-            int cnt = 0;
-            for (int i = 0; i < _places.Length; ++i)
-            {
-                if (_places[i] == null)
-                {
-                    cnt++;
-                }
-            }
-            return cnt;
-        }
-
-        public static bool operator ==(Airport<T, U> a, int bom)
-        {
-            return (a.CompareHelper() == bom);
-        }
-
-        public static bool operator !=(Airport<T, U> a, int bom)
-        {
-            return (a.CompareHelper() != bom);
-        }
-
+        }        
         //метод отрисовки парковки
         public void Draw(Graphics g)
         {
             DrawMarking(g);
-            for (int i = 0; i < _places.Length; i++)
+            for (int i = 0; i < _places.Count; i++)
             {
                 {
+                    _places[i].SetPosition(3 + i / 3 * _placeSizeWidth + 3, 
+                    i % 3 * _placeSizeHeight + 15, PictureWidth,
+                    PictureHeight);
                     _places[i]?.DrawFly(g);
+
                 }
             }
         }
-
         //метод отрисовки разметки
         private void DrawMarking(Graphics g)
         {
             Pen pen = new Pen(Color.Black, 3);
             //границы праковки
-            g.DrawRectangle(pen, 0, 0, (_places.Length / 15) * _placeSizeWidth, 480);
-            for (int i = 0; i < _places.Length / 3; i++)
+            g.DrawRectangle(pen, 0, 0, (_places.Count / 15) * _placeSizeWidth, 480);
+            for (int i = 0; i < _maxCount / 3; i++)
             {
                 for (int j = 0; j < 4; ++j)
                 {//линия рамзетки места
@@ -109,6 +87,20 @@ namespace WindowsFormsAirplane
                     i * _placeSizeWidth + 120, j * _placeSizeHeight);
 
                     g.DrawLine(pen, i * _placeSizeWidth, 0, i * _placeSizeWidth, 400);
+                }
+            }
+        }
+        public T this[int ind]
+        {
+            get
+            {
+                if (ind > -1 && ind < _maxCount)
+                {
+                    return _places[ind];
+                }
+                else
+                {
+                    return null;
                 }
             }
         }
