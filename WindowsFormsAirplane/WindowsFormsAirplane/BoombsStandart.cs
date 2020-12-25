@@ -24,7 +24,7 @@ namespace WindowsFormsAirplane
         {
             for (int i = 0; i < 3; i++)
             {
-                Brush brush = new SolidBrush(Color.Black);
+                Brush brush = new SolidBrush(DopColor);
                 int X = i * 15;
                 int Y = i * 20;
                 g.FillRectangle(brush, PosX + 155 - X, PosY - 30 + Y, 20, 10);
@@ -38,7 +38,7 @@ namespace WindowsFormsAirplane
         {
             for (int i = 0; i < 4; i++)
             {
-                Brush brush = new SolidBrush(Color.Black);
+                Brush brush = new SolidBrush(DopColor);
                 int X = i * 15;
                 int Y = i * 20;
                 g.FillRectangle(brush, PosX + 170 - X, PosY - 50 + Y, 20, 10);
@@ -53,7 +53,7 @@ namespace WindowsFormsAirplane
 
             for (int i = 0; i < 5; i++)
             {
-                Brush brush = new SolidBrush(Color.Black);
+                Brush brush = new SolidBrush(DopColor);
                 int X = i * 15;
                 int Y = i * 20;
                 g.FillRectangle(brush, PosX + 185 - X, PosY - 70 + Y, 20, 10);

@@ -10,24 +10,14 @@ namespace WindowsFormsAirplane
     public class WarPlane : Plane
     {
         protected readonly int planeWidth = 180;
-        /// <summary>
-        /// Ширина отрисовки самолета
-        /// </summary>
-        protected readonly int planeHeight = 60;
 
-        /// <summary>
-        /// Конструктор
-        /// </summary>
-        /// <param name="maxSpeed">Максимальная скорость</param>
-        /// <param name="weight">Вес самолета</param>
-        /// <param name="mainColor">Основной цвет</param>
+        protected readonly int planeHeight = 60;
         public WarPlane(int maxSpeed, float weight, Color mainColor)
         {
             MaxSpeed = maxSpeed;
             Weight = weight;
             MainColor = mainColor;
         }
-
         //Конструктор с изменением размеров самолета
         protected WarPlane(int maxSpeed, float weight, Color mainColor, int planeWidth, int planeHeight)
         {

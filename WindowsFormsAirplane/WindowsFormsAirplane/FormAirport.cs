@@ -19,8 +19,8 @@ namespace WindowsFormsAirplane
         public FormAirport()
         {
             InitializeComponent();
-            comboBoxBoombs.Items.AddRange(new string[] { "6", "8", "10" });
             airportCollection = new AirportCollection(pictureBoxAirport.Width, pictureBoxAirport.Height);
+            plane = new LinkedList<Plane>();
             Draw();
         }
         //Заполнение listBoxLevels
@@ -53,46 +53,6 @@ namespace WindowsFormsAirplane
                 pictureBoxAirport.Image = bmp;
             }
         }
-        private void buttonSetWarPlane_Click(object sender, EventArgs e)
-        {
-            ColorDialog dialog = new ColorDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var air = new WarPlane(100, 1000, dialog.Color);
-                if (airportCollection[listBoxAirport.SelectedItem.ToString()] + air)
-                {
-                    Draw();
-                }
-                else
-                {
-                    MessageBox.Show("Не удалось посадить военный самолет");
-                }
-            }
-        }
-        private void buttonSetBomber_Click(object sender, EventArgs e)
-        {
-            if (listBoxAirport.SelectedIndex > -1)
-            {
-                ColorDialog dialog = new ColorDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    ColorDialog dialogDop = new ColorDialog();
-                    if (dialogDop.ShowDialog() == DialogResult.OK)
-                    {
-                        var bomber = new Bomber(100, 1000, dialog.Color, dialogDop.Color,
-                        true, true, true);
-                        if (airportCollection[listBoxAirport.SelectedItem.ToString()] + bomber)
-                        {
-                            Draw();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Не удалось посадить бомбардировщик");
-                        }
-                    }
-                }
-            }
-        }
         private void buttonTakeBomber_Click(object sender, EventArgs e)
         {
             if (maskedTextBoxPlace.Text != "")
@@ -105,39 +65,7 @@ namespace WindowsFormsAirplane
                 Draw();
             }
         }       
-        private void buttonBombsForm_Click(object sender, EventArgs e)
-        {
-            if (sender == buttonFirstForm)
-            {
-                buttonSecondForm.Enabled = false;
-                buttonThirdForm.Enabled = false;
-            }
-            else if (sender == buttonSecondForm)
-            {
-                buttonFirstForm.Enabled = false;
-                buttonThirdForm.Enabled = false;
-            }
-            else
-            {
-                buttonFirstForm.Enabled = false;
-                buttonSecondForm.Enabled = false;
-            }
-        }
-        private int FormOfBombs()
-        {
-            if (buttonFirstForm.Enabled == true)
-            {
-                return 0;
-            }
-            else if (buttonSecondForm.Enabled == true)
-            {
-                return 1;
-            }
-            else
-            {
-                return 2;
-            }
-        }
+        
         private void buttonAddAirport_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxLevels.Text))
@@ -151,7 +79,6 @@ namespace WindowsFormsAirplane
             ReloadLevels();
             Draw();
         }
-
         private void buttonDeleteAirport_Click(object sender, EventArgs e)
         {
             if (listBoxAirport.SelectedIndex > -1)
@@ -182,5 +109,26 @@ namespace WindowsFormsAirplane
                 MessageBox.Show("Самолётов не осталось");
             }
         }
-    }    
-}
+        private void AddPlane(Plane plane)
+        {
+            if (plane != null && listBoxAirport.SelectedIndex > -1)
+            {
+                if ((airportCollection[listBoxAirport.SelectedItem.ToString()]) + plane)
+                {
+                    Draw();
+                }
+                else
+                {
+                    MessageBox.Show("Поезд не удалось поставить");
+                }
+            }
+        }
+
+        private void buttonAddPlane_Click(object sender, EventArgs e)
+        {
+            var formTeplonfig = new FormPlaneConfig();
+            formTeplonfig.AddEvent(AddPlane);
+            formTeplonfig.Show();
+        }
+    }
+}    
