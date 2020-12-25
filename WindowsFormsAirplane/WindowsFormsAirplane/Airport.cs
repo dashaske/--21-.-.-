@@ -94,15 +94,16 @@ namespace WindowsFormsAirplane
         {
             get
             {
-                if (ind > -1 && ind < _maxCount)
+                if (ind >= 0 && ind < _places.Count)
                 {
                     return _places[ind];
                 }
-                else
-                {
-                    return null;
-                }
+                return null;
             }
+        }
+        public void ClearPlaces()
+        {
+            _places.Clear();
         }
     }
 }

@@ -64,8 +64,7 @@ namespace WindowsFormsAirplane
                 }
                 Draw();
             }
-        }       
-        
+        }              
         private void buttonAddAirport_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxLevels.Text))
@@ -123,12 +122,82 @@ namespace WindowsFormsAirplane
                 }
             }
         }
-
         private void buttonAddPlane_Click(object sender, EventArgs e)
         {
             var formTeplonfig = new FormPlaneConfig();
             formTeplonfig.AddEvent(AddPlane);
             formTeplonfig.Show();
+        }
+        private void всеАэропортыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (airportCollection.SaveData(saveFileDialog.FileName))
+                {
+                    MessageBox.Show("Сохранение прошло успешно", "Результат",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Не сохранилось", "Результат",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        private void выбранныйАэропортToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (listBoxAirport.SelectedIndex > -1)
+                {
+                    if (airportCollection.SaveData(saveFileDialog.FileName, listBoxAirport.SelectedItem.ToString()))
+                    {
+                        MessageBox.Show("Сохранение прошло успешно", "Результат",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Не сохранилось", "Результат",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+        private void всеАэропортыToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (airportCollection.LoadAirportCollection(openFileDialog.FileName))
+                {
+                    MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                    ReloadLevels();
+                    Draw();
+                }
+                else
+                {
+                    MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                }
+            }
+        }
+        private void выбранныйАэропортToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (airportCollection.LoadAirport(openFileDialog.FileName))
+                {
+                    MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                    ReloadLevels();
+                    Draw();
+                }
+                else
+                {
+                    MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }    
