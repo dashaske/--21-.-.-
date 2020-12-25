@@ -28,22 +28,11 @@ namespace WindowsFormsAirplane
         public void SetDopColor(Color color)
         {
             DopColor = color;
-            if (BombsForm == "BoombsStandart")
-            {
-                boomb = new BoombsStandart(Bombs, DopColor);
-            }
-            else if (BombsForm == "BoombsCircular")
-            {
-                boomb = new PointedBoombs(Bombs, DopColor);
-            }
-            else if (BombsForm == "PointedBoombs")
-            {
-                boomb = new BoombsCircular(Bombs, DopColor);
-            }
+            SetBomb();
         }
-        public void SetBombs(IDopElements bomb)
+        public void SetBombs(IDopElements bombs)
         {
-            boomb = bomb;
+            boomb = bombs;
             BombsForm = boomb.GetType().Name;
         }
         public void SetBombsNumber(int bombNumber)
@@ -54,16 +43,33 @@ namespace WindowsFormsAirplane
         bool rocket, bool bomb, bool star, int bombs, string bombsForm)
             : base(maxSpeed, weight, mainColor)
         {
-            MaxSpeed = maxSpeed;
-            Weight = weight;
-            MainColor = mainColor;
             DopColor = dopColor;
             Star = star;
             Bomb = bomb;
             Rocket = rocket;
             Bombs = bombs;
             BombsForm = bombsForm;
-
+            SetBomb();
+        }
+        public Bomber(string info) : base(info)
+        {
+            string[] strs = info.Split(separator);
+            if (strs.Length == 9)
+            {
+                MaxSpeed = Convert.ToInt32(strs[0]);
+                Weight = Convert.ToInt32(strs[1]);
+                MainColor = Color.FromName(strs[2]);
+                DopColor = Color.FromName(strs[3]);
+                Star = Convert.ToBoolean(strs[4]);
+                Bomb = Convert.ToBoolean(strs[5]);
+                Rocket = Convert.ToBoolean(strs[6]);
+                Bombs = Convert.ToInt32(strs[7]);
+                BombsForm = strs[8];
+                SetBomb();
+            }
+        }
+        public void SetBomb()
+        {
             if (BombsForm == "BoombsStandart")
             {
                 boomb = new BoombsStandart(Bombs, DopColor);
@@ -77,14 +83,12 @@ namespace WindowsFormsAirplane
                 boomb = new PointedBoombs(Bombs, DopColor);
             }
         }
-        public Bomber(int maxSpeed, float weight, Color mainColor, Color dopColor) :
-           base(maxSpeed, weight, mainColor)
-        {
-            DopColor = dopColor;
-        }
         public override void DrawFly(Graphics g)
         {
-            boomb.DrawElements(g, PosX, PosY);
+            if (boomb != null)
+            {
+                boomb.DrawElements(g, PosX, PosY);
+            }            
             Pen pen = new Pen(Color.Black);
             //рисуем звезду
 
@@ -105,10 +109,8 @@ namespace WindowsFormsAirplane
                 g.DrawEllipse(pen, PosX + 90, PosY + 90, 30, 10);
                 g.FillEllipse(spoiler, PosX + 90, PosY + 90, 30, 10);
             }
-
             //отрисовка тела
             base.DrawFly(g);
-
             if (Star)
             {
                 Point point1 = new Point((int)PosX + 85, (int)PosY + 60);
@@ -127,7 +129,14 @@ namespace WindowsFormsAirplane
                 Point point12 = new Point((int)PosX + 85, (int)PosY + 40);
                 Point[] board1 = { point7, point8, point9, point10, point11, point12 };
                 g.DrawPolygon(pen, board1);
-            }          
+            }           
+        }
+        public override string ToString()
+        {
+            return $"{base.ToString()}{separator}{DopColor.Name}" +
+                   $"{separator}{Star}{separator}{Bomb}" +
+                   $"{separator}{Rocket}{separator}{Bombs}" +
+                   $"{separator}{BombsForm}";
         }
     }
 }
