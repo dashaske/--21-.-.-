@@ -24,7 +24,6 @@ namespace WindowsFormsAirplane
             this.pictureWidth = pictureWidth;
             this.pictureHeight = pictureHeight;
         }
-
         //Добавление парковки
         public void AddAirport(string name)
         {
@@ -34,7 +33,6 @@ namespace WindowsFormsAirplane
             }
             airportStages.Add(name, new Airport<Plane, BoombsStandart>(pictureWidth, pictureHeight));
         }
-
         //Удаление парковки
         public void DelAirport(string name)
         {
@@ -43,7 +41,6 @@ namespace WindowsFormsAirplane
                 airportStages.Remove(name);
             }
         }
-
         //Доступ к парковке
         public Airport<Plane, BoombsStandart> this[string ind]
         {

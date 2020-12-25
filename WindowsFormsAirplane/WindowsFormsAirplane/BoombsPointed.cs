@@ -41,7 +41,7 @@ namespace WindowsFormsAirplane
         {
             for (int i = 0; i < 3; i++)
             {
-                Brush brush = new SolidBrush(Color.Black);
+                Brush brush = new SolidBrush(DopColor);
                 int X = i * 15;
                 int Y = i * 20;
                 g.FillEllipse(brush, PosX + 155 - X, PosY - 30 + Y, 30, 10);
@@ -56,7 +56,7 @@ namespace WindowsFormsAirplane
         {
             for (int i = 0; i < 4; i++)
             {
-                Brush brush = new SolidBrush(Color.Black);
+                Brush brush = new SolidBrush(DopColor);
                 int X = i * 15;
                 int Y = i * 20;
                 g.FillEllipse(brush, PosX + 170 - X, PosY - 40 + Y, 30, 10);
@@ -70,7 +70,7 @@ namespace WindowsFormsAirplane
         {
             for (int i = 0; i < 5; i++)
             {
-                Brush brush = new SolidBrush(Color.Black);
+                Brush brush = new SolidBrush(DopColor);
                 int X = i * 15;
                 int Y = i * 20;
                 g.FillEllipse(brush, PosX + 190 - X, PosY - 60 + Y, 30, 10);
